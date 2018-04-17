@@ -30,7 +30,13 @@
 [image_15]: ./images/3D_with_optimization2.jpg
 [image_16]: ./images/relation.jpg
 [image_17]: ./images/no_data.jpg
-
+[image_18]: ./images/mapping_kitchen2.jpg
+[image_19]: ./images/2D_no_opt.png
+[image_20]: ./images/2D_opt.png
+[image_21]: ./images/3D_cloud.png
+[image_22]: ./images/3D_cloud_high_opt.png
+[image_23]: ./images/corresp_optimized.png
+[image_24]: ./images/global_no_opt.png
 
 
 
@@ -190,11 +196,17 @@ Finally, launch the teleop script to control the robot using the command
 rosrun slam_project teleop
 ```
 
-The mapping environment can be seen in Fig. 11
+Mapping the created environment can be seen in Fig. 11
 
 ![alt text][image_11]
 
 Fig. 11 - Robot mapping the user created world.
+
+Mapping the provided environment can be seen in Fig. 12
+
+![alt text][image_18]
+
+Fig. 12 - Robot mapping the provided world.
 
 ## Results <a id='result'></a>
 
@@ -204,48 +216,68 @@ In RTAB-Map loop closure is detected using a bag-of-words approach, that is comm
 
 ![alt text][image_12]
 
-Fig. 12 - 2D image with no optimization
+Fig. 13 - 2D image with no optimization for user created env.
 
 ![alt text][image_13]
 
-Fig. 13 - 2D image with optimization
+Fig. 14 - 2D image with optimization for user created env.
 
 Note that global and local closure loop values are zeroed when optimization is applied.
 
+For the provided environment, where we have more features, the 2D map is more clean as we can see in Fig. 15 and 16. Besides, we see few difference between optmized and no optimized 2D graphic.
+
+![alt text][image_19]
+
+Fig. 15. - 2D image with no optimization for provided env.
+
+![alt text][image_20]
+
+Fig. 16. - 2D image with optimization for provided env.
+
+Now we have the 3D images for both worlds. It is clear that provided world has more features, as we can see reflected when we compare both worlds images.
 
 ![alt text][image_14]
 
-Fig. 14 - 3D image with no optimization
+Fig. 17 - 3D image with no optimization for created env.
 
 ![alt text][image_15]
 
-Fig. 15 - 3D image with optimization
+Fig. 18 - 3D image with optimization for created env.
+
+![alt text][image_21]
+
+Fig. 19 - 3D image with no optimization for provided env.
+
+![alt text][image_24]
+
+Fig. 20 - 3D image with optimization for provided env.
+
+Then when we compare the mathing features, again the provided world has much more features than the created one.
 
 ![alt text][image_16]
 
-Fig. 16 - The image shows mathing features
+Fig. 21 - The image shows mathing features
 
-The figure 16 shows when mathing features are found.
+![alt text][image_23]
 
-Regarding to provided world, it was not possible to procces it due to lots of errors encountered during mapping. It seems that kitchen dining environment has a huge number of features that could not be processed due to hardware limitations. The Fig. 17 shows the error messages during the mapping process.
+Fig. 22 - The image shows mathing features
 
-![alt text][image_17]
-
-Fig. 17 - Lots of errors when mapping kitchen dining world.
+The figures 21 and 22 shows when mathing features are found in both worlds and how one is reacher in features than the other.
 
 ## Discussion <a id='discussion'></a>
 
+Thanks to Jetson TX2 that has computational resources sufficent to process the provided world. At first I tried to use the VM environment but it was unable to process the provided world. Moving to TX2 was the solution to finish this project.
 
-The Fig. 16 shows the Bag-of-Words in action. A feature is a very specific characteristic of the image like a patch with complex texture or a corner or edge. For each feature a unique descriptor is associated to it. While new features are being located, the dictionary is searched loocking for matches that are represented by the lines in the image.
+The Fig. 21 and 22 shows the Bag-of-Words in action. A feature is a very specific characteristic of the image like a patch with complex texture or a corner or edge. For each feature a unique descriptor is associated to it. While new features are being located, the dictionary is searched loocking for matches that are represented by the lines in the image.
 
-The optimization applied to 2D and 3D maps seems to be very effective once that we can clearly identify the objects in optimized maps which does not occur when we see maps not optimized.
+We can see that as more features in the environment, more matching lines we will see in the graphic.
 
-The RTAB-Map showed to see a very expensive package in relation to computational resouce. 
+The optimization applied to 2D and 3D maps seems to be very effective once that we can clearly identify the objects in optimized maps which does not occur when we see maps not optimized. But here we can see that this process is less effective when the enrironment has a high number of features as we can see in Fig. 19 and 20 where there is no big differences.
+
+The RTAB-Map showed to see a heavy package in relation to computational resouce. 
 
 ## Future work <a id='future'></a>
 
 As commented in the begining of this document, the idea is to apply this process to a reaal robot.
 
-To avoid the same hardware limitation encountered here, the idea is to use the Nvidia Jetson TX2 board in the real robot.
-
-
+If we consider apply this project to a drone, due to high computational tasks, we need take care about the battery size that can be consumed quickly if not well dimensioned.
